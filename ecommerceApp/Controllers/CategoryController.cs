@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using ecommerceApp.Models;
 using ecommerceApp.Repository.IRepository;
+using ecommerceApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ecommerceApp.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _db;

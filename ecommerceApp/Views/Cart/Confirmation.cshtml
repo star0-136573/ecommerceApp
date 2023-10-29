@@ -1,0 +1,25 @@
+﻿@model int
+
+@* @{
+    var Data = ViewData["paymentInfo"] as List<OrderDetail>;
+}
+
+<h1>Thank You for your Payment!!</h1>
+@foreach(var item in Data)
+{
+    <h3>@item.Name</h3>
+    <h3>@item.PaymentId</h3>
+    <h3>@item.Product.Title</h3>
+} *@
+
+
+<div class="jumbotron text-center">
+    <h1 class="display-3">Thank You!</h1>
+    <p class="lead"><strong>Please check your email</strong> </p>
+@*     Your Order Number is : @Model <br /><br /> *@
+    <hr>
+  
+    <p class="lead">
+        <a class="btn btn-primary btn-sm" href="https://bootstrapcreative.com/" role="button">Continue to homepage</a>
+    </p>
+</div>

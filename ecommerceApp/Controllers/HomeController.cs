@@ -1,33 +1,82 @@
 ﻿using ecommerceApp.Models;
 using ecommerceApp.Repository.IRepository;
+using ecommerceApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace ecommerceApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IProductRepository _db;
-        public HomeController(ILogger<HomeController> logger, IProductRepository db)
+        private readonly IProductRepository _productdb;
+        private readonly IShoppingCartRepository _cartdb;
+        public HomeController(ILogger<HomeController> logger, IProductRepository db, IShoppingCartRepository cartdb)
         {
             _logger = logger;
-            _db = db;
+            _productdb = db;
+            _cartdb = cartdb;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Product> productList = _db.GetAll(includeProperties: "Category");
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null)
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                _cartdb.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+            }
+            IEnumerable<Product> productList = _productdb.GetAll(includeProperties: "Category");
             return View(productList);
 
           
         }
 
-
         public IActionResult Details(int productId)
         {
-            Product product = _db.Get(u => u.Id == productId, includeProperties: "Category");
-            return View(product);
+            ShoppingCart cart = new()
+            {
+                Product = _productdb.Get(u => u.Id == productId, includeProperties: "Category"),
+                Count = 1,
+                ProductId = productId
+            };
+
+            return View(cart);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userId;
+
+            ShoppingCart cartFromDb = _cartdb.Get(u => u.ApplicationUserId == userId &&
+        u.ProductId == shoppingCart.ProductId);
+
+            if (cartFromDb != null)
+            {
+                //shopping cart exists
+                cartFromDb.Count += shoppingCart.Count;
+                _cartdb.Update(cartFromDb);
+            }
+            else
+            {
+                //add cart record
+                _cartdb.Add(shoppingCart);
+            }
+
+            TempData["success"] = "Cart updated successfully";
+            _cartdb.Save();
+
+            
+            return RedirectToAction(nameof(Index));
         }
 
 

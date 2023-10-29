@@ -1,12 +1,15 @@
 ﻿using ecommerceApp.Models;
 using ecommerceApp.Models.ViewModels;
 using ecommerceApp.Repository.IRepository;
+using ecommerceApp.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ecommerceApp.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IProductRepository _db; 
