@@ -127,7 +127,7 @@ namespace ecommerceApp.Controllers
 
             //it is a regular customer account and we need to capture payment
             //stripe logic
-            var domain = "https://localhost:7254/";
+            var domain = "https://isbs.azurewebsites.net/";
             var options = new SessionCreateOptions
             {
                 /* SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderDetail.Id}",*/
