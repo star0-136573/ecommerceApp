@@ -7,11 +7,11 @@ Demo: [https://youtu.be/xF5Q0N9nltg](https://youtu.be/gWUYEHnQUpY)
 
 
 ![alt text](image/tech.png)
-![alt text](image/b1.png)
-![alt text](image/b2.png)
-![alt text](image/b3.png)
-![alt text](image/b4.png)
-![alt text](image/b5.png)
+![alt text](image/b1.jpg)
+![alt text](image/b2.jpg)
+![alt text](image/b3.jpg)
+![alt text](image/b4.jpg)
+![alt text](image/b5.jpg)
 
 
 ## how to run
