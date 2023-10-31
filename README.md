@@ -6,7 +6,7 @@ Demo: [https://youtu.be/xF5Q0N9nltg](https://youtu.be/gWUYEHnQUpY)
  > - Payment with Stripe .
 
 
-![alt text](image/tech.png)
+![alt text](image/tech.jpg)
 ![alt text](image/b1.jpg)
 ![alt text](image/b2.jpg)
 ![alt text](image/b3.jpg)
